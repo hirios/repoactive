@@ -1,4 +1,5 @@
 from datetime import datetime
+from threading import Thread
 import lxml.html
 import requests
 
@@ -45,8 +46,10 @@ class RepoActive:
 
     def search(self, url: str) -> list:
         self.get_forks(url)
-        for x in self.forks:
-            self.get_last_commit(x)
+        threads = [Thread(target=self.get_last_commit, args=(x,)) for x in self.forks]
+        for method in (Thread.start, Thread.join):
+            for thread in threads:
+                method(thread)
 
         self.last_commits = sorted(self.last_commits, key = lambda x: x[0])
         self.last_commits = list(map(datetetime_to_string, self.last_commits))
