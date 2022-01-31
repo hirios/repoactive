@@ -8,10 +8,11 @@ Search the last commit in forks
 ## Exemplo
 ``` Python
 from repoactive import RepoActive
+from pprint import pprint
 
 
 url = 'https://github.com/Anorov/cloudflare-scrape'
 repo = RepoActive()
 lista = repo.search(url)
-print(lista)
+pprint(lista)
 ```
